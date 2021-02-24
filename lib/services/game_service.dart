@@ -61,8 +61,9 @@ class GameService {
 
     gameRef.child("join").onChildAdded.listen((event) async {
       var players = (await gameRef.child("players").once("value")).snapshot.val() as Map? ?? {};
+      var state = (await gameRef.child("state").once("value")).snapshot.val() as String;
 
-      if (players.length < 6) {
+      if (state == "waiting" && players.length < 6) {
         var userId = event.snapshot.key;
         var nickname = event.snapshot.val()["nickname"];
 
