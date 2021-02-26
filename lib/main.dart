@@ -60,6 +60,7 @@ class _WizardAppState extends State<WizardApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Wizard Online',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: GoogleFonts.cinzelTextTheme(),

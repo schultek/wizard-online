@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../../models/game.dart';
 import '../../router/game_route_path.dart';
-import '../../services/game_service.dart';
 
 class JoinScreen extends StatefulWidget {
-  final String gameId;
-  const JoinScreen(this.gameId);
+  final Game game;
+  const JoinScreen(this.game);
 
   @override
   _JoinScreenState createState() => _JoinScreenState();
@@ -19,9 +19,9 @@ class _JoinScreenState extends State<JoinScreen> {
   void initState() {
     super.initState();
 
-    GameService.getJoinAllowed(widget.gameId).then((joinAllowed) {
-      if (joinAllowed == true) {
-        WizardApp.of(context).open(GameRoutePath.game(widget.gameId));
+    widget.game.canJoin().then((canJoin) {
+      if (canJoin == true) {
+        WizardApp.of(context).open(GameRoutePath.game(widget.game));
       }
     });
   }
@@ -41,10 +41,9 @@ class _JoinScreenState extends State<JoinScreen> {
             onPressed: () async {
               if (_nickname == null) return;
 
-              bool allowJoin = await GameService.joinGame(widget.gameId, _nickname!);
-
+              bool allowJoin = await widget.game.join(_nickname!);
               if (allowJoin) {
-                WizardApp.of(context).open(GameRoutePath.game(widget.gameId));
+                WizardApp.of(context).open(GameRoutePath.game(widget.game));
               } else {
                 print("NOT ALLOWED");
               }

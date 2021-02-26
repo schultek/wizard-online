@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../../models/game.dart';
 import '../../router/game_route_path.dart';
 import '../../services/game_service.dart';
 
@@ -49,8 +50,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    String gameId = await GameService.createGame();
-                    WizardApp.of(context).open(GameRoutePath.join(gameId));
+                    Game game = await GameService.createGame();
+                    WizardApp.of(context).open(GameRoutePath.join(game));
                   },
                   style: ButtonStyle(
                     shadowColor: MaterialStateProperty.all(Colors.white),
@@ -90,10 +91,11 @@ class HomeScreen extends StatelessWidget {
                     )
                   ]),
                   child: TextField(
-                    onSubmitted: (String id) {
-                      WizardApp.of(context).open(GameRoutePath.join(id));
+                    onSubmitted: (String id) async {
+                      var game = await GameService.getGame(id);
+                      WizardApp.of(context).open(GameRoutePath.join(game));
                     },
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
                       hintText: "Code eingeben",

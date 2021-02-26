@@ -54,12 +54,12 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
         else if (currentRoute!.isGame)
           FadeAnimationPage(
             key: const ValueKey("signin"),
-            child: GameScreen(currentRoute!.gameId!),
+            child: GameScreen(currentRoute!.game!),
           )
         else if (currentRoute!.isJoin)
           FadeAnimationPage(
             key: const ValueKey("join"),
-            child: JoinScreen(currentRoute!.gameId!),
+            child: JoinScreen(currentRoute!.game!),
           )
       ],
       onPopPage: (route, result) {

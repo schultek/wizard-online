@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wizard_online/services/game_service.dart';
 
 import 'game_route_path.dart';
 
@@ -7,9 +8,11 @@ class GameRouteInformationParser extends RouteInformationParser<GameRoutePath> {
   Future<GameRoutePath> parseRouteInformation(RouteInformation routeInformation) async {
     var uri = Uri.parse(routeInformation.location!);
     if (uri.pathSegments.length >= 2 && uri.pathSegments[0] == 'game') {
-      return GameRoutePath.game(uri.pathSegments[1]);
+      var gameId = uri.pathSegments[1];
+      return GameRoutePath.game(await GameService.getGame(gameId));
     } else if (uri.pathSegments.length >= 2 && uri.pathSegments[0] == 'join') {
-      return GameRoutePath.join(uri.pathSegments[1]);
+      var gameId = uri.pathSegments[1];
+      return GameRoutePath.join(await GameService.getGame(gameId));
     } else {
       return GameRoutePath.home();
     }
